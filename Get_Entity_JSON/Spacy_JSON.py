@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
-
-
 import pandas as pd
 import re 
 import spacy
@@ -11,22 +8,12 @@ from spacy import displacy
 from collections import Counter
 import en_core_web_sm
 
-imdb_data = pd.read_csv(r"C:\Users\AM20111609\Downloads\imdb-dataset-of-50k-movie-reviews\IMDB Dataset.csv")
+imdb_data = pd.read_csv(r"IMDB Dataset.csv")
 print(imdb_data.head())
 print(imdb_data.shape)
 
 imdb_data_col1 = imdb_data.iloc[:5000,0]
 print(imdb_data_col1)
-
-def preprocess(sentence):
-    sentence=str(sentence)
-    sentence = sentence.lower()
-    return_list = ''.join(e for e in sentence if e.isalnum() or e == " ")
-    return return_list
-
-
-# In[16]:
-
 
 imdb_filter = []
 for line in imdb_data_col1:
@@ -34,10 +21,11 @@ for line in imdb_data_col1:
     
 print(len(imdb_filter))
     
-
-
-# In[17]:
-
+def preprocess(sentence):
+    sentence=str(sentence)
+    sentence = sentence.lower()
+    return_list = ''.join(e for e in sentence if e.isalnum() or e == " ")
+    return return_list
 
 data_list = []
 count = 0
@@ -55,11 +43,6 @@ for sentence in imdb_filter:
         print(count)
 print(len(data_list))
 
-
-# In[22]:
-
-
-
 print(len(data_list))
 import numpy as np
 print(np.unique(data_list))
@@ -68,15 +51,9 @@ data_frame_reduced = pd.DataFrame(np.unique(data_list), columns = ['Item', 'Enti
 data_frame_reduced.to_json(r'C:\Users\AM20111609\Downloads\imdb-dataset-of-50k-movie-reviews\data_map_unique.json',orient='split')
 
 
-# In[19]:
-
-
 data_list_frame = pd.DataFrame(data_list, columns = ['Item', 'Entity']) 
 print(data_list_frame)
 data_list_frame.to_json(r'C:\Users\AM20111609\Downloads\imdb-dataset-of-50k-movie-reviews\data_map.json',orient='split')
-
-
-# In[27]:
 
 
 import json
